@@ -1,31 +1,31 @@
+import random
 class Particle:
-    def __init__(self,masa,wspol_X,wspol_Y,promien,pred_poz,pred_pion):
+    czasteczki = []
+    def __init__(self,masa,x,y,radius,vel_x,vel_y):
         self.masa = 10
-        self.wspol_X = wspol_X
-        self.wspol_Y = wspol_Y
-        self.promien = promien
-        self.pred_poz = pred_poz
-        self.pred_pion = pred_pion
-
-    def dodaj(ilosc):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.vel_x = vel_x
+        self.vel_y = vel_y
+    def dodaj(self,ilosc):
         for i in range(ilosc):
-            wspol_X = int(input("podaj wspol X: "))
-            wspol_Y = int(input("podaj wspol Y: "))
-            promien = int(input("podaj promien: "))
-            pred_poz = int(input("podaj predkosc w poziomie: "))
-            pred_pion = int(input("podaj predkosc w pinie: "))
-            czasteczki.append(Particle(wspol_X, wspol_Y, promien, pred_poz, pred_pion))
-#def dodaj(wspol_X,wspol_Y,promien,pred_poz,pred_pion):
-czasteczki=[]
-ilosc = int(input("podaj ilosc czasteczek: "))
-for i in czasteczki:
-    print(i.wspol_X,i.wspol_Y,i.promien,i.pred_pion,i.pred_poz)
+            x = random.randrange(400)
+            y = random.randrange(400)
+            radius = 5
+            vel_x = 5
+            vel_y = 5
+            czasteczki.append(Particle(x,y,radius,vel_x,vel_y))
+
+#ilosc = int(input("podaj ilosc czasteczek: "))
+#for i in czasteczki:
+ #   print(i.wspol_X,i.wspol_Y,i.promien,i.pred_pion,i.pred_poz)
 #tak wygląda przykładowa zamiana
-for i in range(2):
-    x = int(input("podaj wartosc X: "))
-    czasteczki[i].wspol_X = x
+#for i in range(2):
+ #   x = int(input("podaj wartosc X: "))
+  #  czasteczki[i].wspol_X = x
 
-for i in czasteczki:
-    print(i.wspol_X,i.wspol_Y,i.promien,i.pred_pion,i.pred_poz)
+#for i in czasteczki:
+ #   print(i.wspol_X,i.wspol_Y,i.promien,i.pred_pion,i.pred_poz)
 
-print("tak")
+#print("tak")
