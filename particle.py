@@ -27,3 +27,5 @@ for i in range(2):
 
 for i in czasteczki:
     print(i.wspol_X,i.wspol_Y,i.promien,i.pred_pion,i.pred_poz)
+
+print("tak")
