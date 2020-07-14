@@ -1,7 +1,8 @@
-from simulation import *
+from symulation import *
 
 def main():
-    Simulation sym1
+    sym1 = Simulation()
 
+    sym1.test_draw()
 
 main()
