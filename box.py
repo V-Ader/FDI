@@ -1,3 +1,5 @@
+import pygame
+
 class Box:
     # axes
     # 0 - - - - -> width
@@ -10,5 +12,5 @@ class Box:
         self.width = width
         self.height = height
 
-    def draw(self):
-        pass
+    def draw(self,window):
+        pygame.draw.rect(window,(100,100,100),(0,0,self.width,self.height))

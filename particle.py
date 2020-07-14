@@ -3,16 +3,30 @@ import pygame
 
 class Particle:
 
-    def __init__(self,mass,x,y,radius=5,vel_x=5,vel_y=5):
-        self.mass = 10
+    def __init__(self,x,y,mass=10,radius=20,vel_x=5,vel_y=5):
         self.x = x
         self.y = y
+        self.mass = 10
         self.radius = radius
         self.vel_x = vel_x
         self.vel_y = vel_y
 
     def draw(self, window):
         pygame.draw.circle(window,(100,0,10),(self.x, self.y), self.radius, 1)
+
+    def wall_bounce(self, box): #try to bounce off the walls
+        if (self.x - self.radius <= 0) or (self.x  + self.radius >= box.width):
+            self.vel_x = -self.vel_x
+        if (self.y - self.radius <= 0) or (self.y + self.radius >= box.height):
+            self.vel_y = -self.vel_y
+
+    def update(self, box):
+
+        self.wall_bounce(box)
+        self.x += self.vel_x
+        self.y += self.vel_y
+
+
 
 def collide(p1, p2): #if p1 and p2 are colliding, ret True
     min_sq = (p1.radius + p2.radius)**2
@@ -22,24 +36,7 @@ def collide(p1, p2): #if p1 and p2 are colliding, ret True
     else:
         return True
 
-def wall_bounce(p, box): #try to bounce off the walls
-    if (p.x - p.radius <= 0) or (p.x  + p.radius >= box.width):
-        p.vel_x = -p.vel_x
-    if (p.y - p.radius <= 0) or (p.y + p.radius >= box.height):
-        p.vel_y = -p.vel_y
+
 
 def p_bounce(p1, p2):
     pass
-
-#ilosc = int(input("podaj ilosc czasteczek: "))
-#for i in czasteczki:
- #   print(i.wspol_X,i.wspol_Y,i.promien,i.pred_pion,i.pred_poz)
-#tak wygląda przykładowa zamiana
-#for i in range(2):
- #   x = int(input("podaj wartosc X: "))
-  #  czasteczki[i].wspol_X = x
-
-#for i in czasteczki:
- #   print(i.wspol_X,i.wspol_Y,i.promien,i.pred_pion,i.pred_poz)
-
-#print("tak")

@@ -1,4 +1,4 @@
-from symulation import *
+from simulation import *
 
 def main():
     sym1 = Simulation()
