@@ -6,19 +6,21 @@ import random
 
 class Simulation(object):
 
-    def __init__(self):
+    def __init__(self,width=500,height=500):
         self.particles = []
-        self.box = Box(450,450)
+        self.width = width
+        self.height = height
+        self.box = Box(width,height)
 
     def add_particles(self,number):
         for i in range(number):
-            x = random.randrange(400)
-            y = random.randrange(400)
-            self.particles.append(Particle(x,y))
+            pos = (random.randrange(50, 400), random.randrange(50, 400))
+            vel = (random.randrange(-10, 10), random.randrange(-10, 10))
+            self.particles.append(Particle(pos, vel))
 
 
     def test_draw(self):
-        win = Window()
+        win = Window(self.width,self.height)
         clock = pygame.time.Clock()
         clock.tick(5)
 
@@ -31,9 +33,13 @@ class Simulation(object):
                     run = False
                     pygame.quit()
 
+                if event.type == pygame.MOUSEBUTTONUP:
+                    mouse_pos = pygame.mouse.get_pos()
+                    vel = (random.randrange(-10, 10), random.randrange(-10, 10))
+                    self.particles.append(Particle(mouse_pos, vel))
+
             print("*")
             for p in self.particles:
                 p.update(self.box)
-                print(p.x, p.y)
 
             win.refresh(win.win, self.box,self.particles)
