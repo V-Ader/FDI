@@ -7,6 +7,7 @@ import random
 class Simulation(object):
 
     def __init__(self,width=500,height=500):
+        self.speed = 4
         self.particles = []
         self.width = width
         self.height = height
@@ -15,7 +16,9 @@ class Simulation(object):
     def add_particles(self,number):
         for i in range(number):
             pos = (random.randrange(50, 400), random.randrange(50, 400))
-            vel = (random.randrange(-10, 10), random.randrange(-10, 10))
+            vel = (random.randrange(
+                -self.speed, self.speed),
+                random.randrange(-self.speed, self.speed))
             self.particles.append(Particle(pos, vel))
 
 
@@ -24,7 +27,7 @@ class Simulation(object):
         clock = pygame.time.Clock()
         clock.tick(5)
 
-        self.add_particles(10)
+        self.add_particles(5)
         run = True
         while run:
             clock.tick(30)
@@ -40,6 +43,6 @@ class Simulation(object):
 
             print("*")
             for p in self.particles:
-                p.update(self.box)
+                p.update(self.box, self.particles)
 
             win.refresh(win.win, self.box,self.particles)
