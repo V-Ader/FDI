@@ -7,7 +7,7 @@ import random
 class Simulation(object):
 
     def __init__(self,width=500,height=500):
-        self.speed = 4
+        self.speed = 2
         self.particles = []
         self.width = width
         self.height = height
@@ -26,9 +26,8 @@ class Simulation(object):
         win = Window(self.width,self.height)
         PGun = ParticleGun((0,0),(0,0))
         clock = pygame.time.Clock()
-        clock.tick(5)
 
-        self.add_particles(8)
+        self.add_particles(5)
         run = True
         while run:
             clock.tick(60)
@@ -50,7 +49,7 @@ class Simulation(object):
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_s:
                         mouse_pos = pygame.mouse.get_pos()
-                        vel = (random.randrange(-self.speed*2, self.speed*2), random.randrange(-self.speed*2, self.speed*2))
+                        vel = (random.randrange(-self.speed, self.speed), random.randrange(-self.speed, self.speed))
                         self.particles.append(Particle(mouse_pos, vel))
 
                 if event.type == pygame.KEYDOWN:
