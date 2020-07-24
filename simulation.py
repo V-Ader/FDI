@@ -1,4 +1,4 @@
-from particle import Particle,ParticleGun
+from particle import Particle,ParticleGun,RedParticle
 from box import Box
 from window import Window
 import pygame
@@ -7,11 +7,12 @@ import random
 class Simulation(object):
 
     def __init__(self,width=500,height=500):
-        self.speed = 2
+        self.speed = 4
+        self.radius = 40
         self.particles = []
         self.width = width
         self.height = height
-        self.box = Box(width,height)
+        self.box = Box(width, height)
 
     def add_particles(self,number):
         for i in range(number):
@@ -21,12 +22,18 @@ class Simulation(object):
                 random.randrange(-self.speed, self.speed))
             self.particles.append(Particle(pos, vel))
 
+    def add_redparticle(self):
+        pos = (0+self.radius, 0+self.box.height-self.radius)
+        vel = (random.randrange(0, self.speed), random.randrange(0, self.speed))
+        self.particles.append(RedParticle(pos,vel))
 
     def test_draw(self):
         win = Window(self.width,self.height)
         PGun = ParticleGun((0,0),(0,0))
         clock = pygame.time.Clock()
 
+
+        self.add_redparticle()
         self.add_particles(5)
         run = True
         while run:
