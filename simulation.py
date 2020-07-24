@@ -34,7 +34,7 @@ class Simulation(object):
 
 
         self.add_redparticle()
-        self.add_particles(5)
+        self.add_particles(10)
         run = True
         while run:
             clock.tick(60)
