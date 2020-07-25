@@ -3,11 +3,13 @@ from box import Box
 from window import Window
 import pygame
 import random
+import time
 
 class Simulation(object):
 
     def __init__(self,width=500,height=500):
-        self.speed = 4
+        self.time_limit = 100 #simulation time limit in sec
+        self.speed = 0.2
         self.radius = 40
         self.particles = []
         self.width = width
@@ -17,17 +19,18 @@ class Simulation(object):
     def add_particles(self,number):
         for i in range(number):
             pos = (random.randrange(50, 400), random.randrange(50, 400))
-            vel = (random.randrange(
-                -self.speed, self.speed),
-                random.randrange(-self.speed, self.speed))
+            vel = (random.randrange(-1, 1) * self.speed ,
+                   random.randrange(-1, 1) * self.speed)
             self.particles.append(Particle(pos, vel))
 
     def add_redparticle(self):
         pos = (0+self.radius, 0+self.box.height-self.radius)
-        vel = (random.randrange(0, self.speed), random.randrange(0, self.speed))
+        vel = (random.randrange(0, 1) * self.speed, random.randrange(0, 1) * self.speed)
         self.particles.append(RedParticle(pos,vel))
 
     def test_draw(self):
+        cps = 1000 # calculations per sec
+        timer = 0
         win = Window(self.width,self.height)
         PGun = ParticleGun((0,0),(0,0))
         clock = pygame.time.Clock()
@@ -36,12 +39,14 @@ class Simulation(object):
         self.add_redparticle()
         self.add_particles(10)
         run = True
-        while run:
-            clock.tick(60)
+        timer_start = time.time()
+        timer_end = time.time()
+        while (timer_end-timer_start < self.time_limit and run == True):
+            timer += 1
+            time.sleep(1/cps)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-                    pygame.quit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     PGun.acttivated = True
@@ -73,4 +78,8 @@ class Simulation(object):
             for p in self.particles:
                 p.update(self.box, self.particles)
 
-            win.refresh(win.win, self.box,self.particles, PGun)
+            if timer % 5 == 0:
+                win.refresh(win.win, self.box,self.particles, PGun)
+
+            timer_end = time.time()
+        pygame.quit()
