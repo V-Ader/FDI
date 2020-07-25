@@ -76,7 +76,7 @@ class RedParticle(Particle):
         super().__init__(pos,vel)
         self.time_list =[]
         self.road = []
-        self.timee = time.time()
+        self.begin_simulation = time.time()
     def draw(self, window):
         pygame.draw.circle(window, (255, 0, 0), (int(self.x), int(self.y)), self.radius, 0)
 
@@ -99,8 +99,11 @@ class RedParticle(Particle):
                 particles[i].vel_y = -v2p * math.sin(-angle) + v2q * math.cos(-angle)
 
                 end = time.time()
-                outcome = end - self.timee
-                print(outcome)
+                d = math.sqrt((self.x - particles[i].x) ** 2 + (self.y - particles[i].y) ** 2)
+                s = (d - self.radius - particles[i].radius) / 2
+
+                outcome = end - self.begin_simulation
+                print(outcome, s)
                 self.time_list.append(outcome)
 
 
@@ -116,8 +119,6 @@ class RedParticle(Particle):
 
                 particles[i].x += s * (self.x - particles[i].x) / d #move the other obj
                 particles[i].y += s * (self.y - particles[i].y) / d
-               # print(s)
-                self.road.append(s)
 
 
     def update(self, box, particles):
