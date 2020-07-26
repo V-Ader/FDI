@@ -63,12 +63,14 @@ class Particle:
                 particles[i].y += s * (self.y - particles[i].y) / d
 
 
-    def update(self, box, particles):
-        self.x += self.vel_x
-        self.y += self.vel_y
+    def calculate(self, box, particles):
         self.wall_bounce(box)
         self.p_bounce(particles)
         self.separate(particles)
+
+    def move(self):
+        self.x += self.vel_x
+        self.y += self.vel_y
 
 
 class RedParticle(Particle):
@@ -107,31 +109,18 @@ class RedParticle(Particle):
                 self.time_list.append(outcome)
 
 
-    def separate(self, particles):
-        #p - part
-        for i in range(len(particles)):
-            if collide(self, particles[i]):
-                d = math.sqrt((self.x - particles[i].x)**2 + (self.y - particles[i].y)**2)
-                s = (d - self.radius - particles[i].radius) / 2
-
-                self.x -= s * (self.x - particles[i].x) / d #move self obj
-                self.y -= s * (self.y - particles[i].y) / d
-
-                particles[i].x += s * (self.x - particles[i].x) / d #move the other obj
-                particles[i].y += s * (self.y - particles[i].y) / d
-
-
-
 class UberParticle(Particle):
     def __init__(self, pos,vel, radius):
         super().__init__(pos,vel,radius)
         self.particles = []
 
-    def update(self, box, particles):
-        self.x,self.y =pygame.mouse.get_pos()
+    def calculate(self, box, particles):
         self.wall_bounce(box)
-        self.separate(particles)
         self.p_bounce(particles)
+        self.separate(particles)
+
+    def move(self):
+        self.x,self.y =pygame.mouse.get_pos()
         self.particels = particles
 
     def draw(self,window):

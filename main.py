@@ -5,4 +5,6 @@ def main():
 
     sym1.test_draw()
     #sym1.test_colide()
+
+    #sym1.start_bck()
 main()

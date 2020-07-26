@@ -9,32 +9,31 @@ class Simulation(object):
 
     def __init__(self,width=500,height=500):
         self.time_limit = 100 #simulation time limit in sec
-        self.speed = 0.2 #defines max absolute speed of particle
+        self.speed = 0.02 #defines max absolute speed of particle
         self.radius = 40
         self.particles = []
         self.width = width
         self.height = height
         self.box = Box(width, height)
 
+        self.cps = 1000 # calculations per sec
+
     def add_particles(self,number):
         for i in range(number):
             pos = (random.randrange(50, 400), random.randrange(50, 400))
-            vel = (random.randrange(-1, 1) * self.speed ,
-                   random.randrange(-1, 1) * self.speed)
+            vel = (random.randrange(-10, 10) * self.speed ,
+                   random.randrange(-10, 10) * self.speed)
             self.particles.append(Particle(pos, vel, self.radius))
 
     def add_redparticle(self):
         pos = (0+self.radius, 0+self.box.height-self.radius)
-        vel = (random.randrange(0, 1) * self.speed, random.randrange(-1,0) * self.speed)
+        vel = (random.randrange(0,10)*self.speed, -random.randrange(0,10)*self.speed)
         self.particles.append(RedParticle(pos,vel,self.radius))
 
     def test_draw(self):
-        cps = 1000 # calculations per sec
         timer = 0
         win = Window(self.width,self.height)
         PGun = ParticleGun((0,0),(0,0))
-        clock = pygame.time.Clock()
-
 
         self.add_redparticle()
         self.add_particles(10)
@@ -43,7 +42,7 @@ class Simulation(object):
         timer_end = time.time()
         while (timer_end-timer_start < self.time_limit and run == True):
             timer += 1
-            time.sleep(1/cps)
+            time.sleep(1/self.cps)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
@@ -76,7 +75,10 @@ class Simulation(object):
 
 
             for p in self.particles:
-                p.update(self.box, self.particles)
+                p.calculate(self.box, self.particles)
+
+            for p in self.particles:
+                p.move()
 
             if timer % 5 == 0:
                 win.refresh(win.win, self.box,self.particles, PGun)
@@ -119,10 +121,34 @@ class Simulation(object):
 
 
             for p in self.particles:
-                p.update(self.box, self.particles)
+                p.calculate(self.box, self.particles)
+
+            for p in self.particles:
+                p.move()
 
             if timer % 5 == 0:
                 win.refresh(win.win, self.box,self.particles, PGun)
 
             timer_end = time.time()
         pygame.quit()
+
+    def start_bck(self):
+        timer = 0
+
+        self.add_redparticle()
+        self.add_particles(10)
+        run = True
+
+        timer_start = time.time()
+        timer_end = time.time()
+        while (timer_end-timer_start < self.time_limit and run == True):
+            timer += 1
+            time.sleep(1/self.cps)
+
+            for p in self.particles:
+                p.calculate(self.box, self.particles)
+
+            for p in self.particles:
+                p.move()
+
+            timer_end = time.time()
