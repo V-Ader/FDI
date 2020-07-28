@@ -77,7 +77,7 @@ class RedParticle(Particle):
     def __init__(self, pos,vel, radius):
         super().__init__(pos,vel,radius)
         self.time_list =[]
-        self.road = []
+        self.particle_velocity = []
         self.begin_simulation = time.time()
     def draw(self, window):
         pygame.draw.circle(window, (255, 0, 0), (int(self.x), int(self.y)), self.radius, 0)
@@ -85,6 +85,7 @@ class RedParticle(Particle):
     def p_bounce(self, particles):
         for i in range(len(particles)):
             if collide(self, particles[i]):
+                speed = math.sqrt(self.vel_x * self.vel_x + self.vel_y * self.vel_y)
                 angle = math.atan2(particles[i].y - self.y, particles[i].x - self.x) #calc angle
                 v1p = self.vel_x * math.cos(angle) + self.vel_y * math.sin(angle)   #calc rotated x_vel of self
                 v2p = particles[i].vel_x * math.cos(angle) + particles[i].vel_y * math.sin(angle)   #calc rotated x_vel of the other one
@@ -105,7 +106,8 @@ class RedParticle(Particle):
                 s = (d - self.radius - particles[i].radius) / 2
 
                 outcome = end - self.begin_simulation
-                print(outcome, s)
+                print(outcome, speed)
+                self.particle_velocity.append(speed)
                 self.time_list.append(outcome)
 
 
