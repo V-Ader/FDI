@@ -76,8 +76,11 @@ class Particle:
 class RedParticle(Particle):
     def __init__(self, pos,vel, radius):
         super().__init__(pos,vel,radius)
-        self.time_list =[]
+        self.time_list = [0]
         self.particle_velocity = []
+        self.index = 0
+        self.road_list = []
+        self.time_bbounces = []
         self.begin_simulation = time.time()
     def draw(self, window):
         pygame.draw.circle(window, (255, 0, 0), (int(self.x), int(self.y)), self.radius, 0)
@@ -100,15 +103,20 @@ class RedParticle(Particle):
 
                 self.vel_y = -v1p * math.sin(-angle) + v1q * math.cos(-angle) # rotate back self
                 particles[i].vel_y = -v2p * math.sin(-angle) + v2q * math.cos(-angle)
-
                 end = time.time()
-                d = math.sqrt((self.x - particles[i].x) ** 2 + (self.y - particles[i].y) ** 2)
-                s = (d - self.radius - particles[i].radius) / 2
 
+             #   d = math.sqrt((self.x - particles[i].x) ** 2 + (self.y - particles[i].y) ** 2)
+             #   s = (d - self.radius - particles[i].radius) / 2
                 outcome = end - self.begin_simulation
-                print(outcome, speed)
-                self.particle_velocity.append(speed)
+                timeee = outcome - self.time_list[self.index]
+                road = speed * timeee
+             #   print(outcome, timeee, road)
                 self.time_list.append(outcome)
+                
+                self.road_list.append(road)
+                self.time_bbounces.append(timeee)
+                self.particle_velocity.append(speed)
+                self.index += 1
 
 
 class UberParticle(Particle):
