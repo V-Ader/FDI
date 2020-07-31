@@ -3,8 +3,6 @@ import pygame
 import math
 import time
 
-#zadziala
-#zmiana11
 class Particle:
 
     def __init__(self,pos,vel,radius):
@@ -114,7 +112,7 @@ class RedParticle(Particle):
                 distance = speed * timeee
              #   print(outcome, timeee, distance)
                 self.time_list.append(outcome)
-                
+
                 self.distance_list.append(distance)
                 self.time_bbounces.append(timeee)
                 self.particle_velocity.append(speed)
@@ -127,13 +125,13 @@ class UberParticle(Particle):
         self.particles = []
 
     def calculate(self, box, particles):
+        self.particels = particles
         self.wall_bounce(box)
         self.p_bounce(particles)
         self.separate(particles)
 
     def move(self):
         self.x,self.y =pygame.mouse.get_pos()
-        self.particels = particles
 
     def draw(self,window):
         pygame.draw.circle(window,(100,0,10),(int(self.x), int(self.y)), self.radius, 1)

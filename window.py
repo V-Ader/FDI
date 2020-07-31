@@ -15,3 +15,11 @@ class Window:
         PGun.draw(window)
 
         pygame.display.update()
+
+    def refresh(self, window, box, particles):
+        self.win.fill((255,255,255))
+        box.draw(window)
+        for p in particles:
+            p.draw(window)
+
+        pygame.display.update()

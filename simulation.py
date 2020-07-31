@@ -22,7 +22,8 @@ class Simulation(object):
 
     def add_particles(self,number):
         for i in range(number):
-            pos = (random.randrange(50, 400), random.randrange(50, 400))
+            pos = (random.randrange(self.radius, self.width-self.radius),
+             random.randrange(self.radius, self.height-self.radius))
             vel = (random.randrange(-10, 10) * self.speed ,
                    random.randrange(-10, 10) * self.speed)
             self.particles.append(Particle(pos, vel, self.radius))
@@ -188,3 +189,59 @@ class Simulation(object):
                 p.move()
 
             timer_end = time.time()
+
+    def start(self):
+        timer = 0
+        win = Window(self.width,self.height)
+        PGun = ParticleGun((0,0),(0,0))
+
+        self.add_redparticle()
+        self.add_particles(self.number_particles)
+        run = True
+        timer_start = time.time()
+        timer_end = time.time()
+        while (timer_end-timer_start < self.time_limit and run == True):
+
+            timer += 1
+            time.sleep(1/self.cps)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+
+            for p in self.particles:
+                p.calculate(self.box, self.particles)
+
+            for p in self.particles:
+                p.move()
+
+            if timer % 5 == 0:
+                win.refresh(win.win, self.box,self.particles)
+
+            timer_end = time.time()
+
+        result1 = "result_time_list"
+        result2 = "result_particle_velocity"
+        result3 = "result_distance_list"
+        p = open(f'result_simulation_{self.time_limit}.txt', 'a')
+        p.write(result1)
+
+        for i in range(len(self.particles[0].time_list)):
+            p.write('\n')
+            p.write(str(self.particles[0].time_list[i]))  # zapisanie czasu między zderzeniami
+
+        p.write('\n')
+        p.write(result2)
+
+        for i in range(len(self.particles[0].particle_velocity)):
+            p.write('\n')
+            p.write(str(self.particles[0].particle_velocity[i]))  # zapisanie prędkości cząsteczki między zderzeniami
+
+        p.write('\n')
+        p.write(result3)
+
+        for i in range(len(self.particles[0].distance_list)):
+            p.write('\n')
+            p.write(str(self.particles[0].distance_list[i]))  # zapisanie przebytej drogi między zderzeniami
+
+        p.close()
+        pygame.quit()
