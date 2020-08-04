@@ -5,28 +5,34 @@ from window import Window
 import pygame
 import random
 import time
+import math
 
 class Simulation(object):
 
-    def __init__(self,width=500,height=500,number_particles=10):
+    def __init__(self,width,height,number_particles,speed,radius):
         self.time_limit = 10 #simulation time limit in sec
-        self.speed = 0.02 #defines max absolute speed of particle
-        self.radius = 40
+        self.speed = speed #defines max absolute speed of particle
+        self.radius = radius
         self.particles = []
         self.width = width*10
         self.height = height*10
         self.box = Box(self.width, self.height)
         self.number_particles = min(number_particles, 1/4 * (self.box.width * self.box.height))
-
+        self.index = 0
         self.cps = 1000 # calculations per sec
 
     def add_particles(self,number):
         margin = 50
+        number = number - 1
         for i in range(number):
+            vel = (random.randrange(-10, 10) * self.speed,
+                   random.randrange(-10, 10) * self.speed)
             pos = (random.randrange(self.radius + margin, self.width-self.radius- margin),
              random.randrange(self.radius+ margin, self.height-self.radius- margin))
-            vel = (random.randrange(-10, 10) * self.speed ,
-                   random.randrange(-10, 10) * self.speed)
+            for j in range(len(self.particles)):
+                if math.sqrt(distance(pos,self.particles[j].pos)) <= self.radius * 2.2:
+                    pos = (random.randrange(self.radius + margin, self.width - self.radius - margin),
+                           random.randrange(self.radius + margin, self.height - self.radius - margin))
             self.particles.append(Particle(pos, vel, self.radius))
 
     def add_redparticle(self):
@@ -41,7 +47,7 @@ class Simulation(object):
         PGun = ParticleGun((0,0),(0,0))
 
         self.add_redparticle()
-        self.add_particles(self.number_particles)
+        self.add_particles(self.number_particles - 1)
         run = True
         timer_start = time.time()
         timer_end = time.time()
@@ -203,9 +209,6 @@ class Simulation(object):
         timer_start = time.time()
         timer_end = time.time()
         while (timer_end-timer_start < self.time_limit and run == True):
-            if timer == 200:
-                print("start considering errors")
-
             timer += 1
             time.sleep(1/self.cps)
             for event in pygame.event.get():

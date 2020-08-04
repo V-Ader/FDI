@@ -7,6 +7,7 @@ class Particle:
 
     def __init__(self,pos,vel,radius):
         self.x, self.y = pos
+        self.pos = pos
         self.vel_x, self.vel_y = vel
         self.radius = radius
 
@@ -112,7 +113,7 @@ class RedParticle(Particle):
                 distance = speed * timeee
              #   print(outcome, timeee, distance)
                 self.time_list.append(outcome)
-
+               # print(particles[self.index])
                 self.distance_list.append(distance)
                 self.time_bbounces.append(timeee)
                 self.particle_velocity.append(speed)
@@ -162,7 +163,7 @@ def collide(p1, p2): #if p1 and p2 are colliding, ret True
     d = 1/10 * p1.radius
 
     if (2 * p1.radius > math.sqrt(dist)):
-         print("Error - collected data to be deleted")
+         print("Error - collected data to be deleted", time.time())
          return overlap(p1, p2)
 
     if (2 * p1.radius < math.sqrt(dist)) and (math.sqrt(dist) <= 2 * p1.radius + d):
@@ -184,3 +185,6 @@ def overlap(p1, p2): #if p1 and p2 are colliding, ret True
         return False
     else:
         return True
+
+def distance(p1, p2):
+    return (p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2
