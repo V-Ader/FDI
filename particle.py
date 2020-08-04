@@ -163,6 +163,7 @@ def collide(p1, p2): #if p1 and p2 are colliding, ret True
 
     if (2 * p1.radius > math.sqrt(dist)):
          print("Error - collected data to be deleted")
+         return overlap(p1, p2)
 
     if (2 * p1.radius < math.sqrt(dist)) and (math.sqrt(dist) <= 2 * p1.radius + d):
         return True
