@@ -1,7 +1,7 @@
 from simulation import *
 
 def main():
-    sym1 = Simulation(700,700)
+    sym1 = Simulation(70,70)
 
     sym1.start()
 

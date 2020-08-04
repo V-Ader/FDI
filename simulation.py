@@ -8,28 +8,30 @@ import time
 
 class Simulation(object):
 
-    def __init__(self,width=500,height=500):
-        self.time_limit = 5 #simulation time limit in sec
+    def __init__(self,width=500,height=500,number_particles=10):
+        self.time_limit = 10 #simulation time limit in sec
         self.speed = 0.02 #defines max absolute speed of particle
         self.radius = 40
         self.particles = []
-        self.width = width
-        self.height = height
-        self.box = Box(width, height)
-        self.number_particles = 10
+        self.width = width*10
+        self.height = height*10
+        self.box = Box(self.width, self.height)
+        self.number_particles = min(number_particles, 1/4 * (self.box.width * self.box.height))
 
         self.cps = 1000 # calculations per sec
 
     def add_particles(self,number):
+        margin = 50
         for i in range(number):
-            pos = (random.randrange(self.radius, self.width-self.radius),
-             random.randrange(self.radius, self.height-self.radius))
+            pos = (random.randrange(self.radius + margin, self.width-self.radius- margin),
+             random.randrange(self.radius+ margin, self.height-self.radius- margin))
             vel = (random.randrange(-10, 10) * self.speed ,
                    random.randrange(-10, 10) * self.speed)
             self.particles.append(Particle(pos, vel, self.radius))
 
     def add_redparticle(self):
-        pos = (0+self.radius, 0+self.box.height-self.radius)
+        margin = 50
+        pos = (0+self.radius + margin , 0+self.box.height-self.radius-margin)
         vel = (random.randrange(0,10)*self.speed, -random.randrange(0,10)*self.speed)
         self.particles.append(RedParticle(pos,vel,self.radius))
 
@@ -201,6 +203,8 @@ class Simulation(object):
         timer_start = time.time()
         timer_end = time.time()
         while (timer_end-timer_start < self.time_limit and run == True):
+            if timer == 200:
+                print("start considering errors")
 
             timer += 1
             time.sleep(1/self.cps)

@@ -2,8 +2,8 @@ import pygame
 
 class Window:
     def __init__(self, width=500, height=500):
-        self.SCREEN_WIDTH = width
-        self.SCREEN_HEIGHT = height
+        self.SCREEN_WIDTH = max(200, width)
+        self.SCREEN_HEIGHT = max(200, height)
         self.win = pygame.display.set_mode([self.SCREEN_WIDTH, self.SCREEN_HEIGHT], pygame.RESIZABLE)
 
     def refresh(self, window, box, particles, PGun):
