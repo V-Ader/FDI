@@ -19,20 +19,23 @@ class Simulation(object):
         self.box = Box(self.width, self.height)
         self.number_particles = min(number_particles, 1/4 * (self.box.width * self.box.height))
         self.index = 0
-        self.cps = 1000 # calculations per sec
+        self.cps = 700 # calculations per sec
 
     def add_particles(self,number):
         margin = 50
         number = number - 1
+        ok = False
         for i in range(number):
             vel = (random.randrange(-10, 10) * self.speed,
                    random.randrange(-10, 10) * self.speed)
-            pos = (random.randrange(self.radius + margin, self.width-self.radius- margin),
-             random.randrange(self.radius+ margin, self.height-self.radius- margin))
-            for j in range(len(self.particles)):
-                if math.sqrt(distance(pos,self.particles[j].pos)) <= self.radius * 2.2:
-                    pos = (random.randrange(self.radius + margin, self.width - self.radius - margin),
-                           random.randrange(self.radius + margin, self.height - self.radius - margin))
+
+            ok = False
+            while not ok:
+                pos = (random.randrange(self.radius + margin, self.width - self.radius - margin),
+                       random.randrange(self.radius + margin, self.height - self.radius - margin))
+                if is_separated(self.particles, Particle(pos, vel, self.radius)):
+                    ok = True
+
             self.particles.append(Particle(pos, vel, self.radius))
 
     def add_redparticle(self):

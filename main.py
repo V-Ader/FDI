@@ -8,12 +8,16 @@ def param():
     print(width,height,number_particles)
     sym1 = Simulation(width,height,number_particles,speed,radius)
     sym1.start()
-def main():
-    param()
-    #sym1 = Simulation(70,70)
 
-    #sym1.start()
+def debug_start():
+    sym1 = Simulation(15,15,10,0.05,40)
+
+    sym1.start()
 
     #sym1.test_colide()
     #sym1.start_bck()
+
+def main():
+    #param()
+    debug_start()
 main()

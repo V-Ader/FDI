@@ -51,9 +51,9 @@ class Particle:
     def separate(self, particles):
         #p - part
         for i in range(len(particles)):
-            if overlap(self, particles[i]):
+            if collide(self, particles[i]):
                 d = math.sqrt((self.x - particles[i].x)**2 + (self.y - particles[i].y)**2)
-                s = (d - self.radius - particles[i].radius) / 2
+                s = (d - self.radius - particles[i].radius) / 2 + (1/10 * self.radius)
 
                 self.x -= s * (self.x - particles[i].x) / d #move self obj
                 self.y -= s * (self.y - particles[i].y) / d
@@ -152,7 +152,7 @@ class ParticleGun:
         if self.acttivated != False:
             pygame.draw.line(window, self.color, self.start, self.end,5)
 
-def collide(p1, p2): #if p1 and p2 are colliding, ret True
+def collide(p1, p2,debugmode=1): #if p1 and p2 are colliding, ret True
 
 
     if p1.x == p2.x and p1.y == p2.y:
@@ -163,7 +163,8 @@ def collide(p1, p2): #if p1 and p2 are colliding, ret True
     d = 1/10 * p1.radius
 
     if (2 * p1.radius > math.sqrt(dist)):
-         print("Error - collected data to be deleted", time.time())
+         if debugmode == 1:
+             print("Error - collected data to be deleted", time.time())
          return overlap(p1, p2)
 
     if (2 * p1.radius < math.sqrt(dist)) and (math.sqrt(dist) <= 2 * p1.radius + d):
@@ -185,6 +186,13 @@ def overlap(p1, p2): #if p1 and p2 are colliding, ret True
         return False
     else:
         return True
+
+def is_separated(particles, p1):
+    for i in range(len(particles)):
+        if collide(p1,particles[i],0):
+            return False
+    return True
+
 
 def distance(p1, p2):
     return (p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2
