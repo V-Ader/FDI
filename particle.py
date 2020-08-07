@@ -13,7 +13,7 @@ class Particle:
 
 
     def draw(self, window):
-        pygame.draw.circle(window,(100,0,10),(int(self.x), int(self.y)), self.radius, 1)
+        pygame.draw.circle(window,(0,0,255),(int(self.x), int(self.y)), self.radius, 0)
 
     def wall_bounce(self, box): #try to bounce off the walls
         if (self.x - self.radius <= 0):
@@ -190,6 +190,7 @@ def overlap(p1, p2): #if p1 and p2 are colliding, ret True
 def is_separated(particles, p1):
     for i in range(len(particles)):
         if collide(p1,particles[i],0):
+            print("//")
             return False
     return True
 

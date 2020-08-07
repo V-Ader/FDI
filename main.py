@@ -1,7 +1,8 @@
 from simulation import *
 def param():
-    width = int(input("pass width of box: "))
-    height = int(input("pass height of box: "))
+    
+    width = int(input("pass width of box <20;100>: "))
+    height = int(input("pass height of box <20,70>: "))
     number_particles = int(input("pass number of particles in simulation: "))
     speed = float(input("pass maximal speed of particle: "))
     radius = int(input("pass radius of particles: "))
@@ -10,8 +11,8 @@ def param():
     sym1.start()
 
 def debug_start():
-    sym1 = Simulation(70,70,10,0.05,40)
-
+    sym1 = Simulation(70,70,10,50,40)
+    #sym1.test_draw()
     sym1.start()
 
     #sym1.test_colide()

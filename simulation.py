@@ -10,17 +10,19 @@ import math
 class Simulation(object):
 
     def __init__(self,width,height,number_particles,speed,radius):
+        self.cps = 1000 # calculations per sec
+
         self.time_limit = 10 #simulation time limit in sec
-        self.speed = speed #defines max absolute speed of particle
+        self.speed = speed/self.cps #defines max absolute speed of particle
         self.radius = radius
         self.particles = []
-        self.width = min(200, width*10)
-        self.height = min(200,height*10)
+        self.width = max(200, width*10)
+        self.height = max(200,height*10)
         self.box = Box(self.width, self.height)
         self.number_particles = min(number_particles, 1/4 * (self.box.width * self.box.height))
         self.index = 0
-        self.cps = 700 # calculations per sec
 
+        self.scale = 1 / (min(self.width, self.height) * speed)
     def add_particles(self,number):
         margin = 50
         number = number - 1
@@ -28,7 +30,6 @@ class Simulation(object):
         for i in range(number):
             vel = (random.randrange(-10, 10) * self.speed,
                    random.randrange(-10, 10) * self.speed)
-
             ok = False
             while not ok:
                 pos = (random.randrange(self.radius + margin, self.width - self.radius - margin),
