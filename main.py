@@ -10,7 +10,7 @@ def param():
     sym1.start()
 
 def debug_start():
-    sym1 = Simulation(15,15,10,0.05,40)
+    sym1 = Simulation(70,70,10,0.05,40)
 
     sym1.start()
 

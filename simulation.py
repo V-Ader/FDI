@@ -14,8 +14,8 @@ class Simulation(object):
         self.speed = speed #defines max absolute speed of particle
         self.radius = radius
         self.particles = []
-        self.width = width*10
-        self.height = height*10
+        self.width = min(200, width*10)
+        self.height = min(200,height*10)
         self.box = Box(self.width, self.height)
         self.number_particles = min(number_particles, 1/4 * (self.box.width * self.box.height))
         self.index = 0
