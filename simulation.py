@@ -22,6 +22,12 @@ class Simulation(object):
         self.number_particles = min(number_particles, 1/4 * (self.box.width * self.box.height))
         self.index = 0
 
+        #poniżej macie parametry do kroku czasu itd,
+        self.RedPartSpeed = 0
+        self.k = min(self.width,self.height)
+        self.time_step = 0
+        self.punkt1e = 0
+
         self.scale = 1 / (min(self.width, self.height) * speed)
     def add_particles(self,number):
         margin = 50
@@ -44,6 +50,12 @@ class Simulation(object):
         pos = (0+self.radius + margin , 0+self.box.height-self.radius-margin)
         vel = (random.randrange(0,10)*self.speed, -random.randrange(0,10)*self.speed)
         self.particles.append(RedParticle(pos,vel,self.radius))
+
+        #nie wiem czy dodać to do jakiejś funkcji czy coś
+        self.RedPartSpeed = math.sqrt((vel[0] * vel[0]) + (vel[1] * vel[1]))
+        self.time_step = 1/(self.k * self.RedPartSpeed)
+        self.punkt1e = self.time_step * self.number_particles
+
 
     def test_draw(self):
         timer = 0
