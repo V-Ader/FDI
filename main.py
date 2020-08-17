@@ -1,6 +1,6 @@
 from simulation import *
 def param():
-    
+
     width = int(input("pass width of box <20;100>: "))
     height = int(input("pass height of box <20,70>: "))
     number_particles = int(input("pass number of particles in simulation: "))

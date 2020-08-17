@@ -32,20 +32,21 @@ class Particle:
     def p_bounce(self, particles):
         for i in range(len(particles)):
             if collide(self, particles[i]):
-                angle = math.atan2(particles[i].y - self.y, particles[i].x - self.x) #calc angle
-                v1p = self.vel_x * math.cos(angle) + self.vel_y * math.sin(angle)   #calc rotated x_vel of self
-                v2p = particles[i].vel_x * math.cos(angle) + particles[i].vel_y * math.sin(angle)   #calc rotated x_vel of the other one
+                angle = -math.atan2( self.y - particles[i].y, self.x - particles[i].x ) #calc angle
+                v1p = self.vel_x * math.cos(angle) - self.vel_y * math.sin(angle)   #calc rotated x_vel of self
+                v2p = particles[i].vel_x * math.cos(angle) - particles[i].vel_y * math.sin(angle)   #calc rotated x_vel of the other one
 
-                v1q = -self.vel_x * math.sin(angle) + self.vel_y * math.cos(angle)  #calc rotated y_vel of self
-                v2q = -particles[i].vel_x * math.sin(angle) + particles[i].vel_y * math.cos(angle)  ##calc rotated y_vel of the other one
+                v1q = self.vel_x * math.sin(angle) + self.vel_y * math.cos(angle)  #calc rotated y_vel of self
+                v2q = particles[i].vel_x * math.sin(angle) + particles[i].vel_y * math.cos(angle)  ##calc rotated y_vel of the other one
 
                 v1p, v2p = v2p, v1p #
 
-                self.vel_x = v1p * math.cos(-angle) + v1q * math.sin(-angle) # rotate back self
-                particles[i].vel_x = v2p * math.cos(-angle) + v2q * math.sin(-angle)
+                self.vel_x = v1p * math.cos(-angle) - v1q * math.sin(-angle) # rotate back self
+                particles[i].vel_x = v2p * math.cos(-angle) - v2q * math.sin(-angle)
 
-                self.vel_y = -v1p * math.sin(-angle) + v1q * math.cos(-angle) # rotate back self
-                particles[i].vel_y = -v2p * math.sin(-angle) + v2q * math.cos(-angle)
+                self.vel_y = v1p * math.sin(-angle) + v1q * math.cos(-angle) # rotate back self
+                particles[i].vel_y = v2p * math.sin(-angle) + v2q * math.cos(-angle)
+
 
 
     def separate(self, particles):

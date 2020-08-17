@@ -183,7 +183,7 @@ class Simulation(object):
                 p.move()
 
             if timer % 5 == 0:
-                win.refresh(win.win, self.box,self.particles, PGun)
+                win.refresh(win.win, self.box,self.particles)
 
             timer_end = time.time()
 
