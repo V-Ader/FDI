@@ -5,7 +5,7 @@ def param():
     height = int(input("pass height of box <20,70>: "))
     number_particles = int(input("pass number of particles in simulation (ok. 10): "))
     speed = float(input("pass maximal speed of particle (ok. 40): "))
-    radius = int(input("pass radius of particles (ok. 40): "))
+    radius = int(input("pass radius of particles (ok. 10 with minimal window sizes, ok. 40 with maximal): "))
     sym1 = Simulation(width,height,number_particles,speed,radius)
     sym1.start()
 
