@@ -121,38 +121,6 @@ class RedParticle(Particle):
                 self.index += 1
 
 
-class UberParticle(Particle):
-    def __init__(self, pos,vel, radius):
-        super().__init__(pos,vel,radius)
-        self.particles = []
-
-    def calculate(self, box, particles):
-        self.particels = particles
-        self.wall_bounce(box)
-        self.p_bounce(particles)
-        self.separate(particles)
-
-    def move(self):
-        self.x,self.y =pygame.mouse.get_pos()
-
-    def draw(self,window):
-        pygame.draw.circle(window,(100,0,10),(int(self.x), int(self.y)), self.radius, 1)
-        for p in self.particles:
-            if collide(self, p):
-                pygame.draw.line(window, (0,200,0),(int(self.x), int(self.y)),(int(p.x), int(p.y)))
-
-class ParticleGun:
-    def __init__(self,start, end):
-        self.start = start
-        self.end = end
-        self.color = (0,255,0)
-        self.acttivated = False
-        self.scale = 10
-
-    def draw(self, window):
-        if self.acttivated != False:
-            pygame.draw.line(window, self.color, self.start, self.end,5)
-
 def collide(p1, p2,debugmode=1): #if p1 and p2 are colliding, ret True
 
 
@@ -191,7 +159,6 @@ def overlap(p1, p2): #if p1 and p2 are colliding, ret True
 def is_separated(particles, p1):
     for i in range(len(particles)):
         if collide(p1,particles[i],0):
-            print("//")
             return False
     return True
 

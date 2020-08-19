@@ -1,12 +1,11 @@
 from simulation import *
 def param():
 
-    width = int(input("pass width of box <20;100>: "))
+    width = int(input("pass width of box <20;70>: "))
     height = int(input("pass height of box <20,70>: "))
-    number_particles = int(input("pass number of particles in simulation: "))
-    speed = float(input("pass maximal speed of particle: "))
-    radius = int(input("pass radius of particles: "))
-    print(width,height,number_particles)
+    number_particles = int(input("pass number of particles in simulation (ok. 10): "))
+    speed = float(input("pass maximal speed of particle (ok. 40): "))
+    radius = int(input("pass radius of particles (ok. 40): "))
     sym1 = Simulation(width,height,number_particles,speed,radius)
     sym1.start()
 
@@ -19,6 +18,6 @@ def debug_start():
     #sym1.start_bck()
 
 def main():
-    #param()
-    debug_start()
+    param()
+
 main()
